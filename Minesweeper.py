@@ -10,6 +10,10 @@ red = 200, 0, 0
 green = 0, 200, 0
 gray = (200,200,200)
 blue = 0,0,200
+yellow = 200, 200, 0
+purple = 200, 0, 200
+orange = 255, 128, 0
+brown = 100, 51, 0
 bgcolor = (220,220,220)  # light grey
 bgcolor2 = (120,120,120)  # dark grey
 mines = 0
@@ -66,6 +70,7 @@ global keyToPop
 keyToPop = None
 global pressedButton
 pressedButton = None
+numberOfTile = 0
 
 #onödiga if statements gö bara svaret till int
 if ((maxamount * mayamount) % 5) == 0:
@@ -177,9 +182,125 @@ while True:
         if thisXpos <= mouse[0] <= thisXpos+size and thisYpos <= mouse[1] <= thisYpos+size and gameover == False:
             if event.type == pygame.MOUSEBUTTONUP and event.button == LEFT and haveBeenPressed == False:
                 #pygame.draw.rect(screen, green, (thisXpos, thisYpos, size, size))
-                if dictAvButtonColor.get(key) != red:
+                if isBomb != True and dictAvButtonColor.get(key) != red:
                     d2 = {key: blue}
+                    numberOfTile = 0
+                    try:
+                        try:
+                            #print("DEBUG: Tile", key + 1, "isBomb =",dictAvButtonPosOchSize[key + 1].get("isBomb"))
+                            #print("DEBUG: Tile Check 1")
+                            if dictAvButtonPosOchSize[key + 1].get("isBomb") == True:
+                                numberOfTile = numberOfTile + 1
+
+                        except:
+                            print(key + 1, "does not exist")
+                            print("DEBUG: Tile Check 1")
+
+                        try:
+                            #print("DEBUG: Tile", key - 1, "isBomb =",dictAvButtonPosOchSize[key - 1].get("isBomb"))
+                            #print("DEBUG: Tile Check 2")
+                            if dictAvButtonPosOchSize[key - 1].get("isBomb") == True:
+                                numberOfTile = numberOfTile + 1
+
+                        except:
+                            print(key - 1, "does not exist")
+                            print("DEBUG: Tile Check 2")
+
+                        try:
+                            #print("DEBUG: Tile", key + maxamount + 1, "isBomb =",dictAvButtonPosOchSize[key + maxamount + 1].get("isBomb"))
+                            #print("DEBUG: Tile Check 3")
+                            if dictAvButtonPosOchSize[key + maxamount +1].get("isBomb") == True:
+                                numberOfTile = numberOfTile + 1
+
+                        except:
+                            print(key + maxamount +1, "does not exist")
+                            print("DEBUG: Tile Check 3")
+
+                        try:
+                            #print("DEBUG: Tile", key - maxamount - 1, "isBomb =",dictAvButtonPosOchSize[key - maxamount - 1].get("isBomb"))
+                            #print("DEBUG: Tile Check 4")
+                            if dictAvButtonPosOchSize[key - maxamount -1].get("isBomb") == True:
+                                numberOfTile = numberOfTile + 1
+
+                        except:
+                            print(key - maxamount -1, "does not exist")
+                            print("DEBUG: Tile Check 4")
+
+                        try:
+                            #print("DEBUG: Tile", key + 2 + maxamount, "isBomb =",dictAvButtonPosOchSize[key + 2 + maxamount].get("isBomb"))
+                            #print("DEBUG: Tile Check 5")
+                            if dictAvButtonPosOchSize[key + 2 + maxamount].get("isBomb") == True:
+                                numberOfTile = numberOfTile + 1
+
+                        except:
+                            print(key + 2 + maxamount, "does not exist")
+                            print("DEBUG: Tile Check 5")
+
+                        try:
+                            #print("DEBUG: Tile", key - maxamount, "isBomb =",dictAvButtonPosOchSize[key - maxamount].get("isBomb"))
+                            #print("DEBUG: Tile Check 6")
+                            if dictAvButtonPosOchSize[key - maxamount].get("isBomb") == True:
+                                numberOfTile = numberOfTile + 1
+
+                        except:
+                            print(key - maxamount, "does not exist")
+                            print("DEBUG: Tile Check 6")
+
+                        try:
+                            #print("DEBUG: Tile", key - 2 - maxamount, "isBomb =",dictAvButtonPosOchSize[key - 2 - maxamount].get("isBomb"))
+                            #print("DEBUG: Tile Check 7")
+                            if dictAvButtonPosOchSize[key - 2 - maxamount].get("isBomb") == True:
+                                numberOfTile = numberOfTile + 1
+
+                        except:
+                            print(key - 2 - maxamount, "does not exist")
+                            print("DEBUG: Tile Check 7")
+
+                        try:
+                            #print("DEBUG: Tile", key + maxamount, "isBomb =",dictAvButtonPosOchSize[key + maxamount].get("isBomb"))
+                            #print("DEBUG: Tile Check 8")
+                            if dictAvButtonPosOchSize[key + maxamount].get("isBomb") == True:
+                                numberOfTile = numberOfTile + 1
+
+                        except:
+                            print(key + maxamount, "does not exist")
+                            print("DEBUG: Tile Check 8")
+
+
+                    except:
+                        print("Error when checking nearby tiles")
+                        #time.sleep(1)
+
+                    print(numberOfTile)
+                    if numberOfTile == 0:
+                        d2 = {key: bgcolor2}
+                        dictAvButtonColor.update(d2)
+                    elif numberOfTile == 1:
+                        d2 = {key: blue}
+                        dictAvButtonColor.update(d2)
+                    elif numberOfTile == 2:
+                        d2 = {key: green}
+                        dictAvButtonColor.update(d2)
+                    elif numberOfTile == 3:
+                        d2 = {key: orange}
+                        dictAvButtonColor.update(d2)
+                    elif numberOfTile == 4:
+                        d2 = {key: purple}
+                        dictAvButtonColor.update(d2)
+                    elif numberOfTile == 5:
+                        d2 = {key: yellow}
+                        dictAvButtonColor.update(d2)
+                    elif numberOfTile == 6:
+                        d2 = {key: brown}
+                        dictAvButtonColor.update(d2)
+                    else:
+                        print("more than 6 mines, making it brown for now")
+                        d2 = {key: brown}
+                        dictAvButtonColor.update(d2)
+
                     dictAvButtonColor.update(d2)
+                    numberOfTile = 0
+                    #time.sleep(1) #for debugging so I can read the logs
                 print("key:",key," | color:",dictAvButtonColor.get(key))
                 if isBomb == True and dictAvButtonColor.get(key) != red:
                     print("GameOver")
