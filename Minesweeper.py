@@ -305,6 +305,8 @@ while True:
                 if isBomb == True and dictAvButtonColor.get(key) != red:
                     print("GameOver")
                     gameover = True
+
+                """
                 elif dictAvButtonColor.get(key) != red:
                     pygame.draw.rect(screen, green, (thisXpos, thisYpos, size, size))
                     #dictAvButtonPosOchSize["haveBeenPressed"] = True
@@ -335,7 +337,7 @@ while True:
                         pass
 
                     break
-
+                    """
             elif event.type == pygame.MOUSEBUTTONDOWN and event.button == RIGHT:
                 pygame.draw.rect(screen, red, (thisXpos, thisYpos, size, size))
                 if dictAvButtonColor.get(key) == red and dictAvButtonColor.get(key) != blue:
