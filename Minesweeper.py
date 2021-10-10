@@ -14,6 +14,8 @@ yellow = 200, 200, 0
 purple = 200, 0, 200
 orange = 255, 128, 0
 brown = 100, 51, 0
+brown1 = 100, 52, 0
+brown2 = 100, 53, 0
 bgcolor = (220,220,220)  # light grey
 bgcolor2 = (120,120,120)  # dark grey
 mines = 0
@@ -506,6 +508,12 @@ def tileChange(key, numberOfTile):
     elif numberOfTile == 6 and dictAvButtonColor.get(key) != red:
         d2 = {key: brown}
         dictAvButtonColor.update(d2)
+    elif numberOfTile == 7 and dictAvButtonColor.get(key) != red:
+        d2 = {key: brown1}
+        dictAvButtonColor.update(d2)
+    elif numberOfTile == 8 and dictAvButtonColor.get(key) != red:
+        d2 = {key: brown2}
+        dictAvButtonColor.update(d2)
     else:
         print("more than 6 mines, making it brown for now")
         d2 = {key: brown}
@@ -574,6 +582,15 @@ while True:
         elif buttonColor == purple:
             number = 5
             draw_text(screen, number, size, blue, thisXpos,thisYpos)
+        elif buttonColor == brown:
+            number = 6
+            draw_text(screen, number, size, red, thisXpos,thisYpos)
+        elif buttonColor == brown1:
+            number = 7
+            draw_text(screen, number, size, red, thisXpos,thisYpos)
+        elif buttonColor == brown2:
+            number = 8
+            draw_text(screen, number, size, red, thisXpos,thisYpos)
         elif buttonColor == gray:
             pass
         elif buttonColor == bgcolor2:
