@@ -581,13 +581,13 @@ def maine():
                 number = 2
                 draw_text(screen, number, size, red, thisXpos,thisYpos)
             elif buttonColor == yellow:
-                number = 4
+                number = 5
                 draw_text(screen, number, size, red, thisXpos,thisYpos)
             elif buttonColor == orange:
                 number = 3
                 draw_text(screen, number, size, red, thisXpos,thisYpos)
             elif buttonColor == purple:
-                number = 5
+                number = 4
                 draw_text(screen, number, size, blue, thisXpos,thisYpos)
             elif buttonColor == brown:
                 number = 6
