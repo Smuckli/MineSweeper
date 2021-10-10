@@ -5,10 +5,10 @@ startprint = """MineSweeper
 Minesweeper in python with pygame.(finished not polished)
 If you lost right click with mouse to restart"""
 
-print(startprint)
+
 def maine():
     pygame.init()
-
+    print(startprint)
     clock = pygame.time.Clock()
     gameover = False
     scrsize = width,height = 585,415
