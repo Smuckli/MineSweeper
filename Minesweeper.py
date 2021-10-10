@@ -54,6 +54,9 @@ timedisplay_w = timedisplay.get_size()[0]
 minedisplay = arial.render( str(mines), True, red )
 minedisplay_w = minedisplay.get_size()[0]
 
+amountDisplay = arial.render( str(1), True, red )
+amountDisplay_w = amountDisplay.get_size()[0]
+font_name = pygame.font.match_font('arial')
 startxpos = 15
 startypos = 45
 global xpos
@@ -112,6 +115,7 @@ def buttonObject():
         ypos += startxpos + 5
         xpos = startxpos
         ButtonNumber += 1
+
 def UpdateButtons():
     global xpos
     xpos = startxpos
@@ -128,21 +132,45 @@ def UpdateButtons():
         for x in range(maxamount):
             buttonColor = dictAvButtonColor.get(ButtonNumber)
             haveBeenPressed = dictAvButtonPosOchSize[ButtonNumber].get("haveBeenPressed")
+
             if buttonColor == bgcolor2:
                 checkTiles(ButtonNumber)
-#-----------------------------------------------------------------------------------------------
+
             if haveBeenPressed == True:
                 print("pressed: ",haveBeenPressed)
                 pygame.draw.rect(screen, buttonColor,(xpos,ypos,size,size))
+
             elif haveBeenPressed == False:
                 pygame.draw.rect(screen, buttonColor,(xpos,ypos,size,size))
+
             else:
                 print("ERROR 132")
             ButtonNumber += 1
             xpos += startxpos + 5
+
         ypos += startxpos + 5
         xpos = startxpos
         ButtonNumber += 1
+
+def draw_text(surface, text, size, color, x, y):
+    """Draw text to surface
+
+       surface - Pygame surface to draw to
+       text    - string text to draw
+       size    - font size
+       color   - color of text
+       x       - x position of text on surface
+       y       - y position of text on surface
+    """
+    #amountDisplay = arial.render( str(1), True, red )
+    #screen.blit( amountDisplay, ((scrsize[1]+100+amountDisplay_w)//10,200) )
+    font = pygame.font.Font(font_name, 14)
+    text_surf = arial.render(str(text), True, color)
+    text_rect = text_surf.get_rect()
+    text_rect.topleft = (x + size/3, y) # I use topleft here because that makes sense to me
+                               # for English (unless you want it centered).
+                               # But you can use any part of the rect to start drawing the text
+    surface.blit(text_surf, text_rect)
 #making backround2size------
 nnn = 0
 for x in range(maxamount): nnn = size + 5
@@ -456,26 +484,26 @@ def checkTiles(key):
 
 def tileChange(key, numberOfTile):
     #print(numberOfTile)
-    if numberOfTile == 0:
+    if numberOfTile == 0 and dictAvButtonColor.get(key) != red:
         d2 = {key: bgcolor2}
         dictAvButtonColor.update(d2)
         floodFill(key, numberOfTile)
-    elif numberOfTile == 1:
+    elif numberOfTile == 1 and dictAvButtonColor.get(key) != red:
         d2 = {key: blue}
         dictAvButtonColor.update(d2)
-    elif numberOfTile == 2:
+    elif numberOfTile == 2 and dictAvButtonColor.get(key) != red:
         d2 = {key: green}
         dictAvButtonColor.update(d2)
-    elif numberOfTile == 3:
+    elif numberOfTile == 3 and dictAvButtonColor.get(key) != red:
         d2 = {key: orange}
         dictAvButtonColor.update(d2)
-    elif numberOfTile == 4:
+    elif numberOfTile == 4 and dictAvButtonColor.get(key) != red:
         d2 = {key: purple}
         dictAvButtonColor.update(d2)
-    elif numberOfTile == 5:
+    elif numberOfTile == 5 and dictAvButtonColor.get(key) != red:
         d2 = {key: yellow}
         dictAvButtonColor.update(d2)
-    elif numberOfTile == 6:
+    elif numberOfTile == 6 and dictAvButtonColor.get(key) != red:
         d2 = {key: brown}
         dictAvButtonColor.update(d2)
     else:
@@ -519,6 +547,7 @@ while True:
         """
     UpdateButtons()
     #buttonObject()
+
     newdict = {}
     for key, value in dictAvButtonPosOchSize.items():
         thisXpos = dictAvButtonPosOchSize[key].get("Xcord")
@@ -527,6 +556,31 @@ while True:
         haveBeenPressed = dictAvButtonPosOchSize[key].get("haveBeenPressed")
         buttonColor = dictAvButtonColor.get(key)
         pygame.draw.rect(screen, buttonColor,(thisXpos,thisYpos,size,size))
+
+        number = 0
+
+        if buttonColor == blue:
+            number = 1
+            draw_text(screen, number, size, red, thisXpos,thisYpos)
+        elif buttonColor == green:
+            number = 2
+            draw_text(screen, number, size, red, thisXpos,thisYpos)
+        elif buttonColor == yellow:
+            number = 4
+            draw_text(screen, number, size, red, thisXpos,thisYpos)
+        elif buttonColor == orange:
+            number = 3
+            draw_text(screen, number, size, red, thisXpos,thisYpos)
+        elif buttonColor == purple:
+            number = 5
+            draw_text(screen, number, size, blue, thisXpos,thisYpos)
+        elif buttonColor == gray:
+            pass
+        elif buttonColor == bgcolor2:
+            pass
+        else:
+            number = 6
+            draw_text(screen, number, size, red, thisXpos,thisYpos)
 
 
         if thisXpos <= mouse[0] <= thisXpos+size and thisYpos <= mouse[1] <= thisYpos+size and gameover == False:
