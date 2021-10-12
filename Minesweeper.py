@@ -27,7 +27,7 @@ def maine():
     bgcolor2 = (120,120,120)  # dark grey
     mines = 0
 
-
+    mineAmount = [0]
 
     LEFT = 1
     RIGHT = 3
@@ -60,7 +60,7 @@ def maine():
     timedisplay = arial.render( "timeHere", True, black )
     timedisplay_w = timedisplay.get_size()[0]
 
-    minedisplay = arial.render( str(mines), True, red )
+    minedisplay = arial.render( str(mineAmount[0]), True, red )
     minedisplay_w = minedisplay.get_size()[0]
 
     amountDisplay = arial.render( str(1), True, red )
@@ -73,7 +73,7 @@ def maine():
     ypos = startypos
     size = 15 #15
     maxamount = 28 #28
-    mayamount = 18 #17
+    mayamount = 18 #18
     dictAvButtonPosOchSize = {}
     dictOmPressed = {}
     dictAvButtonColor = {}
@@ -90,7 +90,7 @@ def maine():
     four = maxamount + 2
     five = maxamount - 2
 
-
+    """
     #onödiga if statements gö bara svaret till int
     if ((maxamount * mayamount) % 5) == 0:
         amountOfMines = (maxamount * mayamount) // 5
@@ -100,6 +100,7 @@ def maine():
         print("DEBUG: Amount Of Mines =", amountOfMines)
     else:
         print("Error When Making Amount Of Mines")
+    """
 
     def buttonObject():
 
@@ -112,8 +113,9 @@ def maine():
 
             for x in range(maxamount):
                 pygame.draw.rect(screen, gray,(xpos,ypos,size,size))
-                if random.randint(0, 5) == 3:
+                if random.randint(0, 5) == 1:
                     isBomb = True
+                    mineAmount[0] += 1
                 else:
                     isBomb = False
                 dictAvButtonPosOchSize.setdefault(ButtonNumber, {"Xcord": xpos,"Ycord": ypos, "size": size, "isBomb": isBomb, "haveBeenPressed": jonej})
@@ -124,6 +126,8 @@ def maine():
             ypos += startxpos + 5
             xpos = startxpos
             ButtonNumber += 1
+        print("amount of mines:", mineAmount[0])
+        minedisplay = arial.render( str(mineAmount[0]), True, red )
 
     def UpdateButtons():
         global xpos
@@ -554,12 +558,13 @@ def maine():
         thisXpos = 0
         thisYpos = 0
         isBomb = False
+        """
         for key, value in dictOmPressed.items():
             dictAvButtonPosOchSize[value].setdefault(value, {"haveBeenPressed": dictOmPressed[value].get("haveBeenPressed")})
-            """
+
             print("value:",value)
             print("key:",key)
-            """
+        """
         UpdateButtons()
         #buttonObject()
 
@@ -570,7 +575,7 @@ def maine():
             isBomb = dictAvButtonPosOchSize[key].get("isBomb")
             haveBeenPressed = dictAvButtonPosOchSize[key].get("haveBeenPressed")
             buttonColor = dictAvButtonColor.get(key)
-            pygame.draw.rect(screen, buttonColor,(thisXpos,thisYpos,size,size))
+            #pygame.draw.rect(screen, buttonColor,(thisXpos,thisYpos,size,size))
 
             number = 0
 
@@ -651,26 +656,33 @@ def maine():
                     """
                 elif event.type == pygame.MOUSEBUTTONDOWN and event.button == RIGHT:
                     pygame.draw.rect(screen, red, (thisXpos, thisYpos, size, size))
-                    if dictAvButtonColor.get(key) == red and dictAvButtonColor.get(key) != blue:
+                    if dictAvButtonColor.get(key) == red:
                         d1 = {key: gray}
-                    elif dictAvButtonColor.get(key) != blue:
+                        dictAvButtonColor.update(d1)
+                        mineAmount[0] += 1
+                    elif dictAvButtonColor.get(key) == gray:
                         d1 = {key: red}
-
-                    dictAvButtonColor.update(d1)
-                    print("key:",key," | color:",dictAvButtonColor.get(key))
+                        dictAvButtonColor.update(d1)
+                        mineAmount[0] -= 1
+                    #print("key:",key," | color:",dictAvButtonColor.get(key))
                     time.sleep(0.2)
+
+        """
         for key, value in dictOmPressed.items():
             dictAvButtonPosOchSize[value].setdefault(value, {"haveBeenPressed": dictOmPressed[value].get("haveBeenPressed")})
-            """
+
             print("value:",value)
             print("key:",key)
-            """
+
+        """
 
         thisXpos = 0
         thisYpos = 0
         isBomb = False
         # if mouse is hovered on a button it
         # changes to lighter shade
+
+        """
         if pressedButton == True:
             thisXpos = dictAvButtonPosOchSize[keyToPop].get("Xcord")
             thisYpos = dictAvButtonPosOchSize[keyToPop].get("Ycord")
@@ -683,8 +695,9 @@ def maine():
                 pygame.draw.rect(screen, blue, (thisXpos, thisYpos, size, size))
                 print("G")
         pressedButton = False
+        """
         #draw things after this
-
+        minedisplay = arial.render( str(mineAmount[0]), True, red )
         screen.blit( txt2display, ((scrsize[0]+1-txt2display_w)//2,1) )  # at top-center of screen
         screen.blit( timedisplay, ((scrsize[0]+1-timedisplay_w)+ 1,1) )
         screen.blit( minedisplay, ((scrsize[0]+1-minedisplay_w)//200,1) )
