@@ -25,7 +25,7 @@ def maine():
     brown2 = 100, 53, 0
     bgcolor = (220,220,220)  # light grey
     bgcolor2 = (120,120,120)  # dark grey
-    mines = 0
+    mines = 80
 
     mineAmount = [0]
 
@@ -90,6 +90,7 @@ def maine():
     four = maxamount + 2
     five = maxamount - 2
 
+    seed = {}
     """
     #onödiga if statements gö bara svaret till int
     if ((maxamount * mayamount) % 5) == 0:
@@ -101,6 +102,31 @@ def maine():
     else:
         print("Error When Making Amount Of Mines")
     """
+    def SeedGen():
+        Amount = maxamount * mayamount
+        butnumba = 0
+        for xu in range(mayamount):
+
+            for yu in range(maxamount):
+                if random.randint(0, 5) == 1:
+                    ss = {butnumba: 1}
+                    seed.update(ss)
+                else:
+                    ss = {butnumba: 0}
+                    seed.update(ss)
+                butnumba += 1
+            butnumba += 1
+        bombamonta = 0
+        for key, value in seed.items():
+            if value == 1:
+                bombamonta += 1
+
+        if bombamonta != mines:
+            SeedGen()
+        else:
+            print(seed)
+
+    SeedGen()
 
     def buttonObject():
 
@@ -113,7 +139,7 @@ def maine():
 
             for x in range(maxamount):
                 pygame.draw.rect(screen, gray,(xpos,ypos,size,size))
-                if random.randint(0, 5) == 1:
+                if seed[ButtonNumber] == 1:
                     isBomb = True
                     mineAmount[0] += 1
                 else:
@@ -153,11 +179,12 @@ def maine():
                     print("pressed: ",haveBeenPressed)
                     pygame.draw.rect(screen, buttonColor,(xpos,ypos,size,size))
 
-                elif haveBeenPressed == False:
+                elif haveBeenPressed == False and buttonColor != bgcolor2:
                     pygame.draw.rect(screen, buttonColor,(xpos,ypos,size,size))
 
                 else:
-                    print("ERROR 132")
+                    pass
+                    #print("ERROR 132")
                 ButtonNumber += 1
                 xpos += startxpos + 5
 
@@ -180,7 +207,7 @@ def maine():
         font = pygame.font.Font(font_name, 14)
         text_surf = arial.render(str(text), True, color)
         text_rect = text_surf.get_rect()
-        text_rect.topleft = (x + size/3, y) # I use topleft here because that makes sense to me
+        text_rect.topleft = (int(x + size/3), y) # I use topleft here because that makes sense to me
                                    # for English (unless you want it centered).
                                    # But you can use any part of the rect to start drawing the text
         surface.blit(text_surf, text_rect)
@@ -608,7 +635,7 @@ def maine():
             elif buttonColor == bgcolor2:
                 pass
             else:
-                number = 6
+                number = 0
                 draw_text(screen, number, size, red, thisXpos,thisYpos)
 
 
