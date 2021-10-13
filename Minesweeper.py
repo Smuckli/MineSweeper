@@ -26,7 +26,7 @@ def maine():
     bgcolor = (220,220,220)  # light grey
     bgcolor2 = (120,120,120)  # dark grey
     mines = 80
-
+    tid = time.perf_counter()
     mineAmount = [0]
 
     LEFT = 1
@@ -57,7 +57,7 @@ def maine():
     txt2display = arial.render( "Minesweeper", True, black )
     txt2display_w = txt2display.get_size()[0]
 
-    timedisplay = arial.render( "timeHere", True, black )
+    timedisplay = arial.render( str(int(tid)), True, black )
     timedisplay_w = timedisplay.get_size()[0]
 
     minedisplay = arial.render( str(mineAmount[0]), True, red )
@@ -724,10 +724,16 @@ def maine():
         pressedButton = False
         """
         #draw things after this
+        tid = int(time.perf_counter())
+        timedisplay = arial.render( str(int(tid)), True, black )
+        timedisplay_w = timedisplay.get_size()[0]
+
         minedisplay = arial.render( str(mineAmount[0]), True, red )
         screen.blit( txt2display, ((scrsize[0]+1-txt2display_w)//2,1) )  # at top-center of screen
-        screen.blit( timedisplay, ((scrsize[0]+1-timedisplay_w)+ 1,1) )
+        screen.blit( timedisplay, ((scrsize[0]+1-timedisplay_w)// 1.01,1) )
+
         screen.blit( minedisplay, ((scrsize[0]+1-minedisplay_w)//200,1) )
+
 
         if gameover == True:
             for key, value in dictAvButtonPosOchSize.items():
